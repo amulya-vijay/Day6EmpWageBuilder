@@ -46,11 +46,29 @@ class PartTime{
 		return "Daily wage of part time employee is : "+parttime_wage;
 	}
 }
+
+class MonthlyWage{
+	
+	private final int wage_per_hr;
+	private final int hrs_per_day;
+	private final int num_of_days;
+	private int monthly_wage;
+	
+	public MonthlyWage(int wage, int hrs, int days) {
+		this.wage_per_hr=wage;
+		this.hrs_per_day=hrs;
+		this.num_of_days=days;
+	}
+	
+	public String monthlyWage() {
+		monthly_wage=this.wage_per_hr*this.hrs_per_day*this.num_of_days;
+		return "Monthly wage of an Employee : "+monthly_wage;
+	}
+}
+
 class SwitchEmployee{
 	
 	static int empHrs;
-	private static final int full_time_hrs=8;
-	private static final int part_time_hrs=4;
 
 	public static int empCheck= (int) Math.floor(Math.random()*2+1); //generates a random vallue in the range (1,2)
 	
@@ -81,6 +99,9 @@ public class EmployeeWage {
 		att.emp_attendance(); // call to attendance method through object 
 		
 		SwitchEmployee.switchEmp(); // call to employee switch method
+		
+		MonthlyWage mw = new MonthlyWage(100,8,20);
+		System.out.println(mw.monthlyWage());
 		
 	}
 }
