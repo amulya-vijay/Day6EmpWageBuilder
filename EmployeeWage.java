@@ -23,9 +23,9 @@ class DailyWage{
 		this.wage_per_hr=wage;
 		this.hrs_per_day=hrs;
 	}
-	public String dailyWage() { //method to calculate dailywage of en employee
+	public int dailyWage() { //method to calculate dailywage of en employee
 		daily_wage=this.wage_per_hr*this.hrs_per_day;
-		return "Daily wage of full-time Employee : "+daily_wage;
+		return daily_wage;
 	}
 }
 
@@ -40,10 +40,10 @@ class PartTime{
 		this.emphrs=hrs;
 	}
 	
-	String part_time_wage() {
+	int part_time_wage() {
 		
 		parttime_wage=this.wage_per_hr*this.emphrs;
-		return "Daily wage of part time employee is : "+parttime_wage;
+		return parttime_wage;
 	}
 }
 
@@ -51,45 +51,62 @@ class MonthlyWage{
 	
 	private final int wage_per_hr;
 	private final int hrs_per_day;
-	private final int num_of_days;
-	private int monthly_wage;
-	
-	public MonthlyWage(int wage, int hrs, int days) {
-		this.wage_per_hr=wage;
-		this.hrs_per_day=hrs;
-		this.num_of_days=days;
-	}
-	
-	public String monthlyWage() {
-		monthly_wage=this.wage_per_hr*this.hrs_per_day*this.num_of_days;
-		return "Monthly wage of an Employee : "+monthly_wage;
-	}
-}
-
-class SwitchEmployee{
 	
 	static int empHrs;
 
 	public static int empCheck= (int) Math.floor(Math.random()*2+1); //generates a random vallue in the range (1,2)
 	
-	public static void switchEmp() { //method to check if an employee is full-time or part-time
-		
-		switch(empCheck) { 
-		case 1: //calculates daily wage of full-time employee
-			empHrs=8;
-			DailyWage dw = new DailyWage(100,empHrs); //Object of Daily wage class
-			System.out.println(dw.dailyWage()); //call to daily wage calculation method
-			break; 
-		case 2: //calculates daily wage of part-time employee
-			empHrs=4;
-			PartTime pt = new PartTime(80,empHrs); //Object of Part Time class
-			System.out.println(pt.part_time_wage()); //call to part time wage calculation method
-			break;
-		default:
-			break;
-		}
+	
+	public MonthlyWage(int wage, int hrs, int days) {
+		this.wage_per_hr=wage;
+		this.hrs_per_day=hrs;
+		//this.num_of_days=days;
 	}
+	
+	public String monthlyWage() {
+		
+		int total_hrs=0;
+		int total_wage=0;
+		int total_days=0;
+		int daily_wage=0;
+		
+		while(total_hrs<=100 && total_days<=20) {
+			switch(empCheck) { 
+			case 1: //calculates daily wage of full-time employee
+				empHrs=8;
+				DailyWage dw = new DailyWage(this.wage_per_hr,empHrs); //Object of Daily wage class
+				daily_wage=dw.dailyWage(); //call to daily wage calculation method
+				total_wage=daily_wage*total_days; // calculates monthly wage
+				
+				total_hrs=total_hrs+empHrs;
+				
+				break;
+				 
+			case 2: //calculates daily wage of part-time employee
+				empHrs=4;
+				PartTime pt = new PartTime(this.wage_per_hr,empHrs); //Object of Part Time class
+				daily_wage=pt.part_time_wage(); //call to part time wage calculation method
+				total_wage=daily_wage*total_days; //calculates monthly wage
+
+				total_hrs=total_hrs+empHrs;
+				
+				break;
+				
+			default:
+				break;
+			}
+			
+			
+			total_days++;
+		
+		}
+		
+		total_wage=total_hrs*wage_per_hr;
+		return "Monthly wage of an Employee : "+total_wage;
+	}
+	
 }
+
 public class EmployeeWage {
 	
 	public static void main(String [] args) {
@@ -98,7 +115,7 @@ public class EmployeeWage {
 		Attendance att = new Attendance(); //object of attendance class
 		att.emp_attendance(); // call to attendance method through object 
 		
-		SwitchEmployee.switchEmp(); // call to employee switch method
+		//SwitchEmployee.switchEmp(); // call to employee switch method
 		
 		MonthlyWage mw = new MonthlyWage(100,8,20);
 		System.out.println(mw.monthlyWage());
